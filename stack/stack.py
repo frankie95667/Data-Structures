@@ -29,6 +29,7 @@ class Stack:
             return None
         ele = self.storage.tail.value
         current = self.storage.head
+        
         while current != None:
             if current.get_next() == self.storage.tail:
                 self.storage.tail = current
