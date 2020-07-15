@@ -45,16 +45,16 @@ class DoublyLinkedList:
     """
     def remove_from_head(self):
         value = self.head.value
-        self.length -= 1
+        # self.length -= 1
         
-        if self.head.next is not None:
-            self.head.next.prev = self.head.prev
-            self.head = self.head.next
+        # if self.head.next is not None:
+        #     self.head.next.prev = self.head.prev
+        #     self.head = self.head.next
 
-        else:
-            self.head = None
-            self.tail = None
-
+        # else:
+        #     self.head = None
+        #     self.tail = None
+        self.delete(self.head)
         return value
             
     """
@@ -81,16 +81,16 @@ class DoublyLinkedList:
     """
     def remove_from_tail(self):
         value = self.tail.value
-        self.length -= 1
+        # self.length -= 1
         
-        if self.tail.prev is not None:
-            self.tail.prev.next = self.tail.next
-            self.tail = self.tail.prev
+        # if self.tail.prev is not None:
+        #     self.tail.prev.next = self.tail.next
+        #     self.tail = self.tail.prev
 
-        else:
-            self.head = None
-            self.tail = None
-
+        # else:
+        #     self.head = None
+        #     self.tail = None
+        self.delete(self.tail)
         return value
             
     """
