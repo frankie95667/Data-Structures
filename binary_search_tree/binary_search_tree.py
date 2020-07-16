@@ -9,6 +9,10 @@ This part of the project comprises two days:
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
 """
+
+from queue import Queue
+from stack import Stack
+
 class BSTNode:
     def __init__(self, value):
         self.value = value
@@ -86,19 +90,19 @@ class BSTNode:
         if node is None:
             return
         
-        queue = []
-        queue.append(node)
+        queue = Queue()
+        queue.enqueue(node)
 
         while(len(queue) > 0):
-            print(f"{queue[0].value}")
 
-            current = queue.pop(0)
+            current = queue.dequeue()
+            print(f"{current.value}")
 
             if current.left is not None:
-                queue.append(current.left)
+                queue.enqueue(current.left)
 
             if current.right is not None:
-                queue.append(current.right)
+                queue.enqueue(current.right)
             
 
     # Print the value of every node, starting with the given node,
@@ -107,8 +111,8 @@ class BSTNode:
         if node is None:
             return
         
-        stack = []
-        stack.append(node)
+        stack = Stack()
+        stack.push(node)
 
         while(len(stack) > 0):
 
@@ -116,10 +120,10 @@ class BSTNode:
             print(f"{current.value}")
 
             if current.right is not None:
-                stack.append(current.right)
+                stack.push(current.right)
                 
             if current.left is not None:
-                stack.append(current.left)
+                stack.push(current.left)
 
             
     # Stretch Goals -------------------------
