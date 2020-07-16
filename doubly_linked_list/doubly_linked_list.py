@@ -7,6 +7,7 @@ class ListNode:
         self.prev = prev
         self.value = value
         self.next = next
+
             
 """
 Our doubly-linked list class. It holds references to 
@@ -109,7 +110,7 @@ class DoublyLinkedList:
 
         node.next = self.head
         node.next.prev = node
-        self.head = node 
+        self.head = node
         self.head.prev = None
         
     """
