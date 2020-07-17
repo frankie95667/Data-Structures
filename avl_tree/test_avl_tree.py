@@ -82,6 +82,42 @@ class AVLTreeTests(unittest.TestCase):
     self.assertEqual(self.tree.node.right.node.left.node.key, 'z')
     self.assertEqual(self.tree.node.right.node.right.node.key, 'x') 
 
+    self.tree.node = Node(5)
+    self.tree.node.right = AVLTree(Node('x'))
+    self.tree.node.left = AVLTree(Node(3))
+    self.tree.node.right.node.right = AVLTree(Node(4))
+    self.tree.node.right.node.left = AVLTree(Node('c'))
+    self.tree.node.right.node.right.node.left = AVLTree(Node('y'))
+    self.tree.node.right.node.right.node.right = AVLTree(Node('z'))
+
+    self.tree.rebalance()
+
+    self.assertEqual(self.tree.node.key, 'x')
+    self.assertEqual(self.tree.node.left.node.key, 5)
+    self.assertEqual(self.tree.node.right.node.key, 4)
+    self.assertEqual(self.tree.node.left.node.left.node.key, 3)
+    self.assertEqual(self.tree.node.left.node.right.node.key, 'c') 
+    self.assertEqual(self.tree.node.right.node.right.node.key, 'z') 
+    self.assertEqual(self.tree.node.right.node.left.node.key, 'y') 
+    
+    self.tree.node = Node(5)
+    self.tree.node.right = AVLTree(Node('x'))
+    self.tree.node.left = AVLTree(Node(3))
+    self.tree.node.right.node.right = AVLTree(Node(4))
+    self.tree.node.right.node.left = AVLTree(Node('c'))
+    self.tree.node.right.node.left.node.left = AVLTree(Node('y'))
+    self.tree.node.right.node.left.node.right = AVLTree(Node('z'))
+
+    self.tree.rebalance()
+
+    self.assertEqual(self.tree.node.key, 'c')
+    self.assertEqual(self.tree.node.left.node.key, 5)
+    self.assertEqual(self.tree.node.right.node.key, 'x')
+    self.assertEqual(self.tree.node.left.node.left.node.key, 3)
+    self.assertEqual(self.tree.node.left.node.right.node.key, 'y') 
+    self.assertEqual(self.tree.node.right.node.right.node.key, 4) 
+    self.assertEqual(self.tree.node.right.node.left.node.key, 'z') 
+
   def test_insertion(self):
     self.tree.insert(5)
     self.assertEqual(self.tree.node.key, 5)

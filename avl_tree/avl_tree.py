@@ -40,13 +40,51 @@ class AVLTree:
     in the tree
     """
     def update_height(self):
-        pass
+        if self.node is None:
+            return
+
+        if self.node.left is not None:
+            self.node.left.update_height()
+
+        if self.node.right is not None:
+            self.node.right.update_height()
+
+        if self.node.left:
+            left_height = self.node.left.height
+        else:
+            left_height = -1
+
+        if self.node.right:
+            right_height = self.node.right.height
+        else:
+            right_height = -1
+        
+        self.height = max(left_height, right_height) + 1
 
     """
     Updates the balance factor on the AVLTree class
     """
     def update_balance(self):
-        pass
+        if self.node is None:
+            return
+
+        if self.node.left is not None:
+            self.node.left.update_balance()
+
+        if self.node.right is not None:
+            self.node.right.update_balance()
+
+        if self.node.left:
+            left_height = self.node.left.height
+        else:
+            left_height = -1
+
+        if self.node.right:
+            right_height = self.node.right.height
+        else:
+            right_height = -1
+        
+        self.balance = left_height - right_height
 
     """
     Perform a left rotation, making the right child of this
@@ -54,7 +92,19 @@ class AVLTree:
     of the new parent. 
     """
     def left_rotate(self):
-        pass
+        if self.node is None:
+            return
+
+        temp = self.node.left
+        self.node.left = AVLTree(Node(self.node.key))
+        self.node.left.node.left = temp
+        
+        if self.node.right.node.left is not None:
+            self.node.left.node.right = self.node.right.node.left
+        
+        self.node.key = self.node.right.node.key
+        self.node.right = self.node.right.node.right
+
 
     """
     Perform a right rotation, making the left child of this
@@ -62,7 +112,19 @@ class AVLTree:
     of the new parent. 
     """
     def right_rotate(self):
-        pass
+        if self.node is None:
+            return
+
+        temp = self.node.right
+        self.node.right = AVLTree(Node(self.node.key))
+        self.node.right.node.right = temp
+        
+        if self.node.left.node.right is not None:
+            self.node.right.node.left = self.node.left.node.right
+        
+        self.node.key = self.node.left.node.key
+        self.node.left = self.node.left.node.left
+
 
     """
     Sets in motion the rebalancing logic to ensure the
@@ -70,7 +132,29 @@ class AVLTree:
     1 or -1
     """
     def rebalance(self):
-        pass
+        if self.node.left is not None:
+            self.node.left.rebalance()
+                
+        if self.node.right is not None:
+            self.node.right.rebalance()
+        
+        self.update_height()
+        self.update_balance()
+
+        if abs(self.balance) >= 2:
+            if self.balance > 0:
+                if self.node.left.balance >= 0:
+                    self.right_rotate()
+                else:
+                    self.node.left.left_rotate()
+                    self.right_rotate()
+            else:
+                if self.node.right.balance <= 0:
+                    self.left_rotate()
+                else:
+                    self.node.right.right_rotate()
+                    self.left_rotate()
+                
         
     """
     Uses the same insertion logic as a binary search tree
@@ -78,4 +162,26 @@ class AVLTree:
     if we need to rebalance
     """
     def insert(self, key):
-        pass
+
+        queue = []
+        queue.append(self)
+
+        if self.node is None:
+            self.node = Node(key)
+            queue.pop()
+
+        while len(queue) > 0:
+            current = queue.pop(0)
+            
+            if key < current.node.key:
+                if current.node.left is not None:
+                    queue.append(current.node.left)
+                else:
+                    current.node.left = AVLTree(Node(key))
+            elif key > current.node.key or key == current.node.key:
+                if current.node.right is not None:
+                    queue.append(current.node.right)
+                else:
+                    current.node.right = AVLTree(Node(key))
+
+        self.rebalance()
